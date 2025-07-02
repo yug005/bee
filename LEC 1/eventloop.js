@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { resolve } = require("path");
 
 console.log("start");
 
@@ -9,6 +10,11 @@ setTimeout(() => {
 setImmediate(() => {
     console.log("immediate callback");
 });
+function dosometask(){
+    return new Promise((resolve,reject)=>{
+        resolve("promise")
+    })
+}
 
 fs.readFile("demo.txt", (err, data) => {
     console.log("poll phase callback");
@@ -21,3 +27,13 @@ fs.readFile("demo.txt", (err, data) => {
 });
 
 console.log("end");
+
+dosometask().then((res)=>{
+    console.log(res)
+})
+.catch((err)=>{
+    console.log(err)
+});
+process.nextTick(()=>{
+    console.log("next tick")
+})
