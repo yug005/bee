@@ -20,18 +20,32 @@ let product = [{
     quantity : 0
 }];
 
-function buyProduct(product_name, cb) {
-    let isproduct = product.filter((p) => p.name == product_name)[0];
-    if (!isproduct) {
-        cb("Product not found", null);
-        return; // Prevents calling cb twice
-    }
-    if (isproduct.quantity <= 0) {
-        cb("Product out of stock", null);
-        return;
-    }
-    cb(null, isproduct.amount);
+// function buyProduct(product_name, cb) {
+//     let isproduct = product.filter((p) => p.name == product_name)[0];
+//     if (!isproduct) {
+//         cb("Product not found", null);
+//         return; // Prevents calling cb twice
+//     }
+//     if (isproduct.quantity <= 0) {
+//         cb("Product out of stock", null);
+//         return;
+//     }
+//     cb(null, isproduct.amount);
+// }
+function buyProduct(product_name) {
+    return new Promise((resolve, reject) => {
+        let isproduct = product.find(p => p.name === product_name);
+
+        if (!isproduct) {
+            reject("Product not found");
+        } else if (isproduct.quantity <= 0) {
+            reject("Product out of stock");
+        } else {
+            resolve(isproduct.amount);
+        }
+    });
 }
+
 let AvailableAmount = 80000;
 console.log("Available Amount =", AvailableAmount);
 
@@ -41,7 +55,7 @@ function deductbankamount(amount, cb) {
         cb("Insufficient bank balance", null);
         return;
     }
-    AvailableAmount -= amount;
+    else AvailableAmount -= amount;
     // Simulate a delay for the transaction 
     console.log("available amount =",AvailableAmount);
     
@@ -58,3 +72,4 @@ buyProduct("samsung", function(err, amount){
         console.log(msg);
     });
 });
+
