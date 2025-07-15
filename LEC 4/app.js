@@ -41,7 +41,7 @@ function buyProduct(product_name) {
 let AvailableAmount = 80000;
 console.log("Available Amount =", AvailableAmount);
 
-// Callback version 
+
 // function deductbankamount(amount, cb) {
 //     if (AvailableAmount < amount) {
 //         cb("Insufficient bank balance", null);
