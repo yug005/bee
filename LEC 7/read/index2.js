@@ -4,6 +4,6 @@ fs.readFile("../users.txt", "utf8", function(err, data) {
        console.log("Error reading file:", err);
    } else {
        let users = JSON.parse(data);
-       console.log(users);
+       console.log(users[0]);
    }
 });

@@ -1,21 +1,22 @@
 let users = [
     {
-        name:"yug arora",
+        name:"gaurish asija",
         age: 20,
-        address: "delhi",
+        address: "rajpura",
     },
     {
-        name:"ritik",
+        name:"vansh sarna",
         age: 21,
-        address: "Chandigarh",
+        address: "ambala",
 
     }
 ]
 const fs = require('fs');
-fs.writeFile("../users2.txt",JSON.stringify(users,),function(err) {
+fs.writeFile("../users.txt",JSON.stringify(users,),function(err) {
     if (err) {
         console.log("Error writing file:", err);
     } else {
         console.log("File written successfully");
     }
 });
+
