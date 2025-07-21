@@ -15,7 +15,16 @@ res.end('Hello World');
 app.get('/watch', (req, res) => {
     let videoId = req.query.v;
     console.log(videoId);
-    res.send('id got it');
+    console.log("got it");
+
+    res.send('id got it'+ ' ' +videoId)
+});
+//query params
+app.get("/watch:v/video/:n", (req, res) => {
+    // 2nd params
+  console.log(req.params.v);
+  console.log(req.params.n);   
+  res.send("got it !!!!");     
 });
 
 app.listen(3000, function() {
