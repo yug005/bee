@@ -1,0 +1,37 @@
+//create a new element using createelement function
+// add data in the element either using .innerTExt or inner html
+// insert new element in parent container using appendChild or appendChild or append
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo appp</title>
+</head>
+<body>
+    <h2>Tdod List</h2>
+    <ul class="todocontainer"></ul>
+
+
+    <script>
+
+        let todo = {
+      id: 2345,
+      title: "Study at 9pm"
+    };
+        let todoContainer = document.querySelector(".todocontainer")
+        function addTodo(todo){
+            let li = document.createElement("li");
+            li.innerHTML = `#${todo.id}: ${todo.title}`;
+
+     
+      todoContainer.appendChild(li);
+    }
+
+    
+    addTodo(todo);
+        
+    </script>
+    
+</body>
+</html>

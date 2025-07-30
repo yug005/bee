@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>Color Box</title>
+  </head>
+  <body>
+
+    <h2>Click Generate to Start Changing Color</h2>
+
+    <div id="box" style="width:200px; height:200px; background-color:gray; border:1px solid black;"></div>
+
+    <br>
+
+    <button onclick="start()">Generate Color</button>
+    <button onclick="stop()">Stop</button>
+
+    <script>
+      let intervalID = null; 
+      let box = document.getElementById("box");
+
+      function start() {
+        if (intervalID === null) {
+          intervalID = setInterval(changeColor, 1000);
+        }
+      }
+
+      function stop() {
+        clearInterval(intervalID);
+        intervalID = null;
+      }
+
+      function changeColor() {
+        let colors = [
+          'red', 'green', 'blue', 'yellow', 'purple',
+          'orange', 'pink', 'brown', 'cyan', 'lime'
+        ];
+
+        let randomIndex = Math.floor(Math.random() * colors.length);
+        box.style.backgroundColor = colors[randomIndex];
+      }
+    </script>
+
+  </body>
+</html>
