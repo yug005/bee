@@ -4,34 +4,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo appp</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Todo App</title>
 </head>
 <body>
-    <h2>Tdod List</h2>
-    <ul class="todocontainer"></ul>
+  <h1>ToDo Application</h1>
+  <ul class="todocontainer"></ul>
 
+  <script>
+    const todos = [
+      { id: 1, title: "Study at 9pm" },
+      { id: 2, title: "Go to gym" },
+      { id: 3, title: "Complete DSA homework" },
+      { id: 4, title: "Read 10 pages of a book" },
+      { id: 5, title: "Review today's notes" }
+    ];
 
-    <script>
+    const todoContainer = document.querySelector(".todocontainer");
 
-        let todo = {
-      id: 2345,
-      title: "Study at 9pm"
-    };
-        let todoContainer = document.querySelector(".todocontainer")
-        function addTodo(todo){
-            let li = document.createElement("li");
-            li.innerHTML = `#${todo.id}: ${todo.title}`;
-
-     
+    function addTodo(todo) {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div>
+          <input type="checkbox" />
+          <h3>#${todo.id}: ${todo.title}</h3>
+          <div>
+            <button>❌</button>
+            <button>✏️</button>
+          </div>
+        </div>
+      `;
       todoContainer.appendChild(li);
     }
 
-    
-    addTodo(todo);
-        
-    </script>
-    
+    function showAllTodos() {
+      todos.forEach(todo => addTodo(todo));
+    }
+
+    showAllTodos();
+  </script>
 </body>
 </html>
