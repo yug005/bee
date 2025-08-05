@@ -18,6 +18,10 @@ function getUserData(URL) {
 }
 
 let userContainer = document.querySelector('.user-container');
+let registrationForm = document.querySelector('.register');
+let nameInput = document.querySelector('.name');
+let usernameInput = document.querySelector('.username');  
+
 function displayUser(user){
   let li = document.createElement('li');
   li.setAttribute('class', 'user-item');
@@ -32,3 +36,27 @@ function displayUser(user){
             userContainer.appendChild(li);
 }
 getUserData('http://localhost:3000/users');
+
+function addUser(name,username,URL) {
+    let data = {
+        name: name,
+        username: username
+    }
+    fetch(URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+    })
+    .then((res)=>{
+        return res.json();
+    })
+    .then((data)=>{
+        console.log(data);
+      
+    })
+}
+registrationForm.addEventListener('submit', function(e){
+    let name = nameInput.value;
+    let username = usernameInput.value;
+    addUser(name, username, 'http://localhost:3000/adduser');
+    
+})
