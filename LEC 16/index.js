@@ -1,45 +1,80 @@
-const express = require('express');
-const app = express();
-const fs = require('fs');
+const express=require("express");
+const mongoose=require("mongoose");
 
+const app=express();
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
-app.use(express.static(__dirname + '/public'));  
+app.use(express.urlencoded({extended:true}));
 
-app.get('/users', (req, res) => {
-    try {
-        let data = fs.readFileSync('users.json', 'utf8');
-        let alluser = data ? JSON.parse(data) : [];
-        res.json(alluser);
-    } catch (error) {
-        res.send(error);
-    }
+const Blogs=require("./model/users")
+const Users=require("./model/users")
+
+app.post("/blogs",async(req,res)=>{
+    let {title,body}=req.body;
+    let newBlog=new Blogs({
+        title:title,
+        body:body,
+        date:Date.now()
+    })
+    await newBlog.save()
+    res.json({
+        success:true,
+        data:newBlog,
+        message:"blog added successfully!!!"
+    })
 })
-app.post('/adduser', (req, res) => {
-    try{
-    let name = req.body.name;
-    let username = req.body.username;
-    let newUsers = {
-        id:Math.floor(Math.random() * 1000000),
-        name: name,
-        username: username,
-        role:"user"
-    }
 
-    let alluser = [];
-    let data = fs.readFileSync('users.json', 'utf8');
-    if(data){
-        alluser = JSON.parse(data);
-    }
-    alluser.push(newUsers);
-    fs.writeFileSync('users.json', JSON.stringify(alluser));
-    res.redirect('/register.html');
-}catch(error){
-    return res.send(error);
-}
+app.get("/blogs",async(req,res)=>{
+    let allblog=await Blogs.find();
+    res.json({
+        success:true,
+        data:allblog
+    })
+})
+
+app.get("/blogs/:id",async(req,res)=>{
+    let {id}=req.params
+    let blog=await Blogs.findOne({_id:id});
+    res.json({
+        success:true,
+        data:blog
+    })
+})
+
+app.post("/users", async (req, res) => {
+  let { email, username, password } = req.body;
+  let newUser = new Users({
+    email: email,
+    username: username,
+    password: password
+  });
+  await newUser.save();
+  res.json({
+    success: true,
+    data: newUser,
+    message: "user added successfully!!!"
+  });
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.get("/users", async (req, res) => {
+  let allUsers = await Users.find();
+  res.json({
+    success: true,
+    data: allUsers
+  });
 });
 
+app.get("/users/:id", async (req, res) => {
+  let { id } = req.params;
+  let user = await Users.findOne({ _id: id });
+  res.json({
+    success: true,
+    data: user
+  });
+});
+
+app.listen(3000,()=>{
+    console.log("Server started");
+})
++
+mongoose.connect('mongodb://127.0.0.1:27017/g26DB')
+  .then(() => console.log('Connected!'));
