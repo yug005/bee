@@ -1,35 +1,38 @@
-const express=require("express");
-const { m2, m1 } = require("./middleware/firstmiddleware");
+//middleware - function which run on client request before controller functions
+const express = require("express");
+const { m1, m2 } = require("./middleware/firstmiddleware");
 const { m3 } = require("./middleware/pathlevel");
-const app=express();
-app.use(express.static(__dirname+"/public"))
+const userRoutes = require("./routes/userRoutes");
+
+const app = express();
+
+
+app.use(express.static(__dirname + "/public"));
 app.use(express.json());
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }));
+app.use(m1);
 
+app.use("/api/users", userRoutes);
 
-app.use(m1)
-app.get("/health", m3, (req,res,next)=>{
-    console.log("running controller function");
-    // next();
-    return res.json({
-        status:"ok",
-        message:"server running ok"
-    })
-    // console.log("after response")
-})
-app.use(m2)
+app.get("/health", m3, (req, res, next) => {
+   console.log("running controller function");
+   res.json({ status: "OK",
+    message: "Server is healthy",
+    });
+  
+});
+app.use(m2);
 app.get("/home", (req, res, next) => {
-    console.log("running home endpoint");
-    next();
-    return res.json({
-        status: "ok",
-        message: "welcome to home page"
-    })
-})
+    console.log("running controller function");
+    res.json({  success: true,
+    message: "Welcome to the home page",
+    });
+});
 
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+});
 
-
-
-app.listen(3000,()=>{
-    console.log("Server started");
-})
+app.listen(3000, () => {
+    console.log(`Server is running on port 3000`);
+});
