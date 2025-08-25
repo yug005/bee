@@ -4,11 +4,47 @@ const app = express();
 const User = require("./model/useres");
 const jwt = require("jsonwebtoken");
 console.log(User);
+function isLogin(req,res,next){
+    let token = req.headers["authorization"];
+    if(!req.headers["authorization"]){
+        return res.json({
+            success:false,
+            message:"no authentication key provided"
+        })
+    }
+    console.log(token);
+    if(!token){
+        return res.json({
+            success:false,
+            message:"plz login to access "
+        })
+    }
+    let decoded = jwt.verify(token,"okkkk");
+    console.log(decoded);
+    if(!decoded){
+        return res.json({
+            success:false,
+            message:"Invalid token"
+        })
+    }
+    req.userId = decoded.user;
+    next();
+}
 
 app.use(express.json());
 
 app.get("/health", (req, res) => {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa")
   res.json({ status: "OK", message: "server running ok" });
+});
+app.get("/home", isLogin, async(req, res) => {
+    let user=await User.findById(req.userId)
+    console.log(user)
+    let username = user.name;
+
+    console.log("running ok")
+  res.json({ success: true, message: "Welcome to the home page" +" "+ username });
+
 });
 
 //end point for signup -- ading new user into db
