@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String?
+  password String
+  
+}
+//@id marks a field as the primary key for the model (e.g., User). A primary key is a special column that uniquely identifies each record in the table. There can only be one primary key per model.
+
+//@default(autoincrement()) is a function that automatically generates a new, unique, and sequential integer value for the field every time a new record is created. This ensures that the primary key always has a unique value without you having to manually provide it.
+//The @unique attribute ensures that every value in a specific field is unique across all records in that table. This prevents any duplicates.
+
