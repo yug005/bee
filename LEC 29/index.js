@@ -25,7 +25,7 @@ async function addTweet(content, userId) {
         }
     });
 } 
-// addTweet("This is my first tweet", 1).then((data)=>{
+// addTweet("This is my second tweet", 1).then((data)=>{
 //     console.log("Tweet added successfully");
 // }).catch((err)=>{
 //     console.log(err.message);
@@ -37,13 +37,14 @@ async function getTweetsByUserId(userId) {
             userId: userId
         }
     });
+    console.log(`Fetched tweets for userId ${userId}:`, tweets);
     return tweets;
 }
-// getTweetsByUserId(1).then((data)=>{
-//     console.log(data);
-// }).catch((err)=>{
-//     console.log(err.message);
-// });
+getTweetsByUserId(1).then((data)=>{
+    console.log('All tweets for user 1:', data);
+}).catch((err)=>{
+    console.log(err.message);
+});
 
 //user who's id is 1 wants to update his tweet whoose id is 1;
 async function updateTweet(tweetId,userId,updatedContent){
@@ -71,7 +72,7 @@ async function updateTweet(tweetId,userId,updatedContent){
 // .then(()=>{
 //    console.log("Tweet updated");
 // });
-//delete
+//delete tweet
 async function deleteTweet(tweetId, userId) {
   try {
     const deletedTweet = await prisma.tweet.deleteMany({
@@ -95,13 +96,112 @@ async function deleteTweet(tweetId, userId) {
 }
 
 
-deleteTweet(1, 1)
-  .then(() => {
-    console.log('Delete operation completed.');
+// deleteTweet(2, 1)
+//   .then(() => {
+//     console.log('Delete operation completed.');
+//   })
+//   .catch((err) => {
+//     console.log(err.message);
+//   });
+    
+    
+async function deleteUserAndTweets(userId) {
+  try {
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      }
+    });
+    // Optionally, delete tweets by user
+    await prisma.tweet.deleteMany({
+      where: {
+        userId: userId
+      }
+    });
+    console.log(`Deleted user ${userId} and their tweets.`);
+  } catch (error) {
+    console.error('Error deleting user and tweets:', error);
+    throw error;
+  }
+}
+// deleteUserAndTweets(1)
+//   .then(() => {
+//     console.log('User and their tweets deleted successfully.');
+//   })
+//   .catch((err) => {
+//     console.error('Failed to delete user and tweets:', err.message);
+//   });
+
+//get users
+
+
+
+async function getAllUsers() {
+  try {
+    const users = await prisma.user.findMany();
+    console.log('Found users:', users);
+    
+  } catch (error) {
+    console.error('Error fetching all users:', error);
+    throw error;
+  }
+}
+
+//  caling gett users all
+
+// getAllUsers()
+//   .then((users) => {
+//     console.log('User retrieval completed');
+    
+//   })
+//   .catch((err) => {
+//     console.error('Failed to retrieve users:', err.message);
+//   });
+
+
+  // all suers with email and name only
+async function getAllUserEmailsAndNames() {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        email: true,
+        name: true
+      }
+    });
+    console.log('User emails and names', users);
+    return users;
+  } catch (error) {
+    console.error('Error fetching user emails and names', error);
+    throw error;
+  }
+}
+
+// caling 
+getAllUserEmailsAndNames()
+  .then((users) => {
+    console.log('Selected user emails and names', users);
   })
   .catch((err) => {
-    console.log(err.message);
+    console.error('Failed to retrieve user emails and names', err.message);
   });
-    
-    
 
+// addUser("yug arora","yuggg@gmail.com","123456").then((data)=>{
+//     console.log("user added successfully");
+// }).catch((err)=>{
+//     console.log(err.message);
+// });
+// addUser("gaurish","gaurish@gmail.com","123456").then((data)=>{
+//     console.log("user added successfully");
+// }).catch((err)=>{
+//     console.log(err.message);
+// });
+// addUser("rahul","rahul@gmail.com","123456").then((data)=>{
+//     console.log("user added successfully");
+// }).catch((err)=>{
+//     console.log(err.message);
+// });
+// addUser("ram","ram@gmail.com","123456").then((data)=>{
+//     console.log("user added successfully");
+// }).catch((err)=>{
+//     console.log(err.message);
+// });

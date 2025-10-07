@@ -30,6 +30,40 @@ app.post("/api/users/signup",async (req,res) => {
         res.json({success:false,message:"Internal server error"});
     }
 });
+
+app.post("/api/auth/login",async(req,res)=>{
+    try{
+    const{email,password}= req.body;
+    let userExist = await User.findOne({email:email});
+    if(!userExist){
+        return res.json({
+            success:false,
+            message:"user does not exist please signup"
+        })
+    }
+    if(userExist.password!=password){
+        return res.json({
+            success:false,
+            message:"Invalid pass, plz try again"
+        })
+    }
+    if(userExist.password==password){
+        return res.json({
+            success:true,
+            message:"user login"
+        })
+    }
+}
+catch(err){
+    console.log(err);
+    res.json({
+        error:{
+            message:err.message
+        }
+    })
+}
+})   
+
 mongoose.connect('mongodb://127.0.0.1:27017/g26DB')
   .then(() => {console.log('Connected!')
     
@@ -37,6 +71,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/g26DB')
   .catch(err => {
     console.log(err.message)
   });
+
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

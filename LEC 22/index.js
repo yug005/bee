@@ -115,3 +115,4 @@ mongoose.connect('mongodb://127.0.0.1:27017/g26DB')
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGFkN2M2NzJiM2RiMGMyNTliYTMzZjEiLCJpYXQiOjE3NTYyMDAwNjcsImV4cCI6MTc1NjIwMzY2N30.RCrBbjgmwSwwoBT87DvGOcr9tgxvWLPApt1xUTK76nc

@@ -5,7 +5,7 @@ const app=express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-const Blogs=require("./model/users")
+const Blogs=require("./model/blog")
 const Users=require("./model/users")
 
 app.post("/blogs",async(req,res)=>{

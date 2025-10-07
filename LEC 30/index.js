@@ -201,7 +201,7 @@ async function getAllUsersWithTweetsTitle() {
         }
       }
     });
-    console.log('Users with tweets title:', users);
+    console.log('Users with tweets title:', JSON.stringify(users, null, 2));
     return users;
   } catch (error) {
     console.error('Error fetching users with tweets title', error);
